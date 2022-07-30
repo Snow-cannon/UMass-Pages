@@ -14,4 +14,22 @@ One of the problems I have run into on campus is locating places to study. Durin
 
 One way to fix this problem is to create a website that allows users to share their study spaces with the rest of the campus community. **UMass Spaces** will let users share study areas online, allowing other users to find great places to study. Users will be able to share study areas, search for new study areas based on specific criteria, and comment on the study areas for other people to read. This will help students find interesting locations while also shortening the amount of time needed to find them.
 
+Some inspiration from the example project idea [UMass Course Review](https://github.com/Anderson-100/cs326-project-undefined/blob/main/docs/milestone-1.md) by Anderson Hsiao, and from a constant annoyance at the lack of available group study spaces at UMass (The ones I know of are always full).
+
 ## Functionality
+
+**UMass Spaces** will have a single page. The top will have a bar that, when clicked, opens a form that allows you to enter a new study area with all the associated information listed below. Underneath the bar is the search option. This will have another form that allows users to enter filters based on what they want in a study area. When they search it will show all the study areas that match those filters, creating a scrolling list underneath with the image and the description of the area. The user can then click on the area to see comments, write a comment, and see all associated information on that particular site to see if it's something they are interested in.
+
+Data for each site:
+*Image
+*Description
+*Number of seats
+*Schedule
+*Location
+*Wall plug access (Laptops need charging)
+*Restrictions
+**Specific building access
+**Grad student?
+*Near food? 🤷 (Might remove)
+*Other filters as I think of them (Too many can make it clunky)
+*Comments
