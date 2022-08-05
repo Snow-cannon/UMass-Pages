@@ -28,7 +28,7 @@
                 <h1 class="display-6">UMass Spaces</h1>
             </div>
             <div class="d-flex">
-                <a class="btn btn-secondary" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button"
+                <a class="btn btn-secondary" data-bs-toggle="offcanvas" href="#add-location-sidebar" role="button"
                     aria-controls="offcanvasExample">
                     Add Location
                 </a>
@@ -36,20 +36,56 @@
         </nav>
     </div>
 
-    <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
-        <div class="offcanvas-header">
+    <div class="offcanvas offcanvas-start" tabindex="-1" id="add-location-sidebar"
+        aria-labelledby="offcanvasExampleLabel" aria-controls="offcanvasBottom">
+        <div class="offcanvas-header" id="popup-header">
             <h5 class="offcanvas-title" id="offcanvasExampleLabel">New Loation</h5>
             <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
-        <div class="offcanvas-body text-center">
-            <label for="image_input" class="form-label">Upload Image</label>
-            <input type="file" id="image_input" accept="image/*" class="form-control">
-            <br>
-            <div id="display_image"></div>
+        <div class="offcanvas-body justify-content-center">
+            <!-- Submission form for new location -->
+            <form id="add-location-form">
+                <!-- Title -->
+                <label for="location-title" class="form-label fw-bold">Title</label>
+                <input type="text" id="location-title" class="form-control">
+                <!-- Image -->
+                <label for="image_input" class="form-label fw-bold">Location Image</label>
+                <input type="file" id="image_input" accept="image/*" class="form-control">
+                <div id="display_image"></div>
+                <!-- Description -->
+                <label for="location-desc" class="form-label fw-bold">Description</label>
+                <textarea id="location-desc" class="form-control" rows="4" maxlength="256"></textarea>
+                <hr>
+                <h1 class="display-6 bold">Details</h1>
+                <!-- Location -->
+                <div class="input-group flex-nowrap">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="location-dropdown-button"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        Location
+                    </button>
+                    <!-- Location List (Auto-generated onload) -->
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" id="location-dropdown-list">
+                    </ul>
+                    <input type="text" id="location-location" class="form-control" disabled>
+                </div>
+                <!-- Seats -->
+                <div class="input-group flex-nowrap">
+                    <span class="input-group-text" id="addon-wrapping">Seats</span>
+                    <input type="number" id="location-seats" class="form-control">
+                </div>
+                <!-- Tables -->
+                <div class="input-group flex-nowrap">
+                    <span class="input-group-text" id="addon-wrapping">Tables</span>
+                    <input type="number" id="location-tables" class="form-control">
+                </div>
+                <!-- Ports -->
+                <div class="input-group flex-nowrap">
+                    <span class="input-group-text" id="addon-wrapping">Wall Ports</span>
+                    <input type="number" id="location-ports" class="form-control">
+                </div>
+            </form>
         </div>
     </div>
-    <form>
-    </form>
     <script src="./index.js"></script>
 </body>
 

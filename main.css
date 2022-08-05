@@ -1,8 +1,23 @@
 #display_image {
-    width: 375px;
-    height: 211px;
+    margin: auto;
+    width: 350px;
+    height: 225px;
     border: 1px solid black;
     background-position: center;
-    background-size:contain;
+    background-size: contain;
     background-repeat: no-repeat;
+    background-color: lightgray;
+}
+
+#popup-header {
+    background-color: lightgray;
+}
+
+#add-location-sidebar {
+    width: 400px;
+}
+
+#add-location-form>* {
+    margin-top: 5px;
+    margin-bottom: 5px;
 }
