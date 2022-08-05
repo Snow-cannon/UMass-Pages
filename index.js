@@ -16,7 +16,7 @@ image_input.addEventListener('change', function () {
 /**
  * Get viable locations (Will be loaded from server in the future)
  */
-function makeLocationList() {
+function makeLocationList(list, output) {
     let locations = [ //Replace with GET
         'A',
         'B',
@@ -25,8 +25,8 @@ function makeLocationList() {
         'E',
         'F'
     ];
-    const dropdown = document.getElementById('location-dropdown-list');
-    const choice = document.getElementById('location-location');
+    const dropdown = list;
+    const choice = output;
     locations.forEach(l => {
         let li = document.createElement('li');
         let div = document.createElement('div');
@@ -40,6 +40,8 @@ function makeLocationList() {
     });
 }
 
+//Load necessary information when the window completes loading
 window.onload = () => {
-    makeLocationList;
+    makeLocationList(document.getElementById('location-dropdown-list'), document.getElementById('location-location'));
+    makeLocationList(document.getElementById('search-dropdown-list'), document.getElementById('search-location'));
 }

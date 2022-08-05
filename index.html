@@ -2,11 +2,10 @@
 <html lang="en">
 
 <head>
+    <!-- Title -->
     <title>UMass Pages</title>
-    <meta charset="utf-8">
 
-    <link href="./main.css" rel="stylesheet">
-
+    <!-- Start information -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -17,25 +16,23 @@
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>
 
-
+    <!-- Main CSS file -->
+    <link href="./main.css" rel="stylesheet">
 </head>
 
 <body>
-    <div>
-        <nav class="navbar navbar-expand-lg navbar-static-top navbar-light bg-light"
-            style="padding-left:10px; padding-right:10px;">
-            <div class="container-fluid">
-                <h1 class="display-6">UMass Spaces</h1>
-            </div>
-            <div class="d-flex">
-                <a class="btn btn-secondary" data-bs-toggle="offcanvas" href="#add-location-sidebar" role="button"
-                    aria-controls="offcanvasExample">
-                    Add Location
-                </a>
-            </div>
-        </nav>
-    </div>
+    <!-- Navbar -->
+    <nav class="navbar navbar-umass">
+        <div class="container-fluid">
+            <a class="navbar-brand umass-spaces">UMass Spaces</a>
+            <button class="btn btn-umass-primary" data-bs-toggle="offcanvas" href="#add-location-sidebar"
+                aria-controls="offcanvasExample">
+                Add Location
+            </button>
+        </div>
+    </nav>
 
+    <!-- Add Location Sidebar -->
     <div class="offcanvas offcanvas-start" tabindex="-1" id="add-location-sidebar"
         aria-labelledby="offcanvasExampleLabel" aria-controls="offcanvasBottom">
         <div class="offcanvas-header" id="popup-header">
@@ -44,10 +41,11 @@
         </div>
         <div class="offcanvas-body justify-content-center">
             <!-- Submission form for new location -->
-            <form id="add-location-form">
-                <!-- Title -->
-                <label for="location-title" class="form-label fw-bold">Title</label>
-                <input type="text" id="location-title" class="form-control">
+            <form id="add-location-form" class="room-form">
+                <h1 class="display-6 bold">View</h1>
+                <!-- Name -->
+                <label for="location-name" class="form-label fw-bold">Name</label>
+                <input type="text" id="location-name" class="form-control">
                 <!-- Image -->
                 <label for="image_input" class="form-label fw-bold">Location Image</label>
                 <input type="file" id="image_input" accept="image/*" class="form-control">
@@ -56,36 +54,151 @@
                 <label for="location-desc" class="form-label fw-bold">Description</label>
                 <textarea id="location-desc" class="form-control" rows="4" maxlength="256"></textarea>
                 <hr>
-                <h1 class="display-6 bold">Details</h1>
-                <!-- Location -->
+                <h1 class="display-6 bold">Location</h1>
+                <!-- Building -->
                 <div class="input-group flex-nowrap">
                     <button class="btn btn-secondary dropdown-toggle" type="button" id="location-dropdown-button"
                         data-bs-toggle="dropdown" aria-expanded="false">
-                        Location
+                        Building
                     </button>
                     <!-- Location List (Auto-generated onload) -->
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" id="location-dropdown-list">
                     </ul>
                     <input type="text" id="location-location" class="form-control" disabled>
                 </div>
+                <!-- Room # -->
+                <div class="input-group flex-nowrap">
+                    <span class="input-group-text">Room #</span>
+                    <input type="number" id="location-room" class="form-control">
+                </div>
+                <hr>
+                <h1 class="display-6 bold">Details</h1>
                 <!-- Seats -->
                 <div class="input-group flex-nowrap">
-                    <span class="input-group-text" id="addon-wrapping">Seats</span>
+                    <span class="input-group-text">Seats</span>
                     <input type="number" id="location-seats" class="form-control">
                 </div>
                 <!-- Tables -->
                 <div class="input-group flex-nowrap">
-                    <span class="input-group-text" id="addon-wrapping">Tables</span>
+                    <span class="input-group-text">Tables</span>
                     <input type="number" id="location-tables" class="form-control">
                 </div>
                 <!-- Ports -->
                 <div class="input-group flex-nowrap">
-                    <span class="input-group-text" id="addon-wrapping">Wall Ports</span>
+                    <span class="input-group-text">Wall Ports</span>
                     <input type="number" id="location-ports" class="form-control">
                 </div>
+                <!-- Whiteboard -->
+                <div class="input-group">
+                    <div class="input-group-text">
+                        <input class="form-check-input mt-0" type="checkbox" id="location-whiteboard">
+                    </div>
+                    <label class="input-group-text" for="location-whiteboard">Whiteboard</label>
+                </div>
+                <!-- Outside -->
+                <div class="input-group">
+                    <div class="input-group-text">
+                        <input class="form-check-input mt-0" type="checkbox" id="location-outside">
+                    </div>
+                    <label class="input-group-text" for="location-outside">Outside</label>
+                </div>
+                <br>
+                <button class="btn btn-secondary">Submit Location</button>
             </form>
         </div>
     </div>
+
+    <h1 class="display-4 text-center fw-bold">Search</h1>
+    <div class="row d-flex justify-content-center text-center">
+        <div class="col-lg-5 room-form">
+            <h1 class="display-6 bold">Location</h1>
+            <div class="input-group flex-nowrap">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="search-dropdown-button"
+                    data-bs-toggle="dropdown" aria-expanded="false">
+                    Building
+                </button>
+                <!-- Location List (Auto-generated onload) -->
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" id="search-dropdown-list">
+                </ul>
+                <input type="text" id="search-location" class="form-control" disabled>
+            </div>
+            <!-- Room # -->
+            <div class="input-group flex-nowrap">
+                <label class="input-group-text" for="search-room">Room #</label>
+                <input type="number" id="search-room" class="form-control">
+            </div>
+        </div>
+    </div>
+    <div class="row d-flex justify-content-center text-center">
+        <h1 class="display-6 bold">Details</h1>
+        <div class="col-lg-2 room-form">
+            <!-- Seats -->
+            <div class="input-group flex-nowrap">
+                <label class="input-group-text" for="search-seats">Seats</label>
+                <input type="number" id="search-seats" class="form-control">
+            </div>
+            <!-- Tables -->
+            <div class="input-group flex-nowrap">
+                <label class="input-group-text" for="search-tables">Tables</label>
+                <input type="number" id="search-tables" class="form-control">
+            </div>
+            <!-- Ports -->
+            <div class="input-group flex-nowrap">
+                <label class="input-group-text" for="search-ports">Wall Ports</label>
+                <input type="number" id="search-ports" class="form-control">
+            </div>
+        </div>
+        <div class="col-lg-2 room-form">
+            <!-- Whiteboard -->
+            <div class="input-group">
+                <div class="input-group-text">
+                    <input class="form-check-input mt-0" type="checkbox" id="search-whiteboard">
+                </div>
+                <label class="input-group-text" for="search-whiteboard">Whiteboard</label>
+            </div>
+            <!-- Outside -->
+            <div class="input-group">
+                <div class="input-group-text">
+                    <input class="form-check-input mt-0" type="checkbox" id="search-outside">
+                </div>
+                <label class="input-group-text" for="search-outside">Outside</label>
+            </div>
+            <br>
+        </div>
+    </div>
+    <br>
+    <div class="row justify-content-center text-center">
+        <!-- Submits search data -->
+        <button class="btn btn-secondary w-auto" id="submit-search">Submit Location</button>
+    </div>
+    <hr>
+
+    <!-- Generated search results will be accordian items in this div-->
+    <div class="row justify-content-center text-center" id="generated-results">
+        <!-- <div class="accordion" id="accordionExample">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingOne">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne"
+                    aria-expanded="true" aria-controls="collapseOne">
+                        Accordion Item #1
+                    </button>
+                </h2>
+                <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
+                    data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        <strong>This is the first item's accordion body.</strong> It is shown by default, until the collapse
+                        plugin adds the appropriate classes that we use to style each element. These classes control the
+                        overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of
+                        this with custom CSS or overriding our default variables. It's also worth noting that just about any
+                        HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+                    </div>
+                </div>
+            </div>
+        </div> -->
+    </div>
+
+
+    <!-- Main script import -->
     <script src="./index.js"></script>
 </body>
 

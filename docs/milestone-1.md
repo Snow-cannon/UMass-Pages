@@ -27,18 +27,18 @@ Data for each site:
 * Number of seats
   * Multiple tables?
   * Seats per table?
-* Schedule
+<!-- * Schedule
   * Days
   * Times during each day
-  * Classroom schedule?
+  * Classroom schedule? -->
 * Location
   * Building
   * Room number
 * Wall plug access (Laptops need charging)
   * Number of plugs?
-* Restrictions
+<!-- * Restrictions
   * Specific building access
-  * Grad student?
-* Near food? 🤷 (Might remove)
-* Other filters as I think of them (Too many can make it clunky)
+  * Grad student? -->
+<!-- * Near food? 🤷 (Might remove) -->
+<!-- * Other filters as I think of them (Too many can make it clunky) -->
 * Comments
