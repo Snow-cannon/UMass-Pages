@@ -123,7 +123,7 @@ function addResult(content, container) {
 }
 
 /**
- * Makes a JSON obj out of the form data
+ * Makes a JSON obj out of the add-area form data
  */
 function submitAddAreaForm() {
     //Collect all form data
@@ -143,10 +143,32 @@ function submitAddAreaForm() {
     return data;
 }
 
+/**
+ * Makes a JSON obj out of the search form data
+ */
+function submitSearchForm() {
+    //Collect all form data
+    let data = {
+        location: document.getElementById('search-location').value,
+        room: document.getElementById('search-room').value,
+        floor: document.getElementById('search-floor').value,
+        seats: document.getElementById('search-seats').value,
+        tables: document.getElementById('search-tables').value,
+        ports: document.getElementById('search-ports').value,
+        whiteboard: document.getElementById('search-whiteboard').checked,
+        outside: document.getElementById('search-outside').checked,
+    };
+    return data;
+}
+
 //TODO: Send to server instead of ading to gsr
 let lastAdd = 0;
 document.getElementById('submit-location').onclick = () => {
     addResult(submitAddAreaForm(), (++lastAdd % 3) + 1);
+}
+
+document.getElementById('submit-search').onclick = () => {
+    //TODO: Submit search query to the server
 }
 
 //Load necessary information when the window completes loading
