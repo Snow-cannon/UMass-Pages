@@ -164,7 +164,9 @@ function submitSearchForm() {
 //TODO: Send to server instead of ading to gsr
 let lastAdd = 0;
 document.getElementById('submit-location').onclick = () => {
-    addResult(submitAddAreaForm(), (++lastAdd % 3) + 1);
+    lastAdd = (lastAdd + 1 % 3)
+    addResult(submitAddAreaForm(), lastAdd);
+    return false;
 }
 
 document.getElementById('submit-search').onclick = () => {
