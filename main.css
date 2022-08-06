@@ -34,11 +34,6 @@ body {
     background-color: #f8f9fa;
 }
 
-/* #add-location-form>* {
-    margin-top: 5px;
-    margin-bottom: 5px;
-} */
-
 .room-form>* {
     margin-top: 5px;
     margin-bottom: 5px;
@@ -48,3 +43,9 @@ body {
     background-color: #ced4da;
     font-weight: bold;
 }
+
+.gsr-item {
+
+    margin-bottom: 10px;
+}
+

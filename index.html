@@ -68,24 +68,29 @@
                 </div>
                 <!-- Room # -->
                 <div class="input-group flex-nowrap">
-                    <span class="input-group-text">Room #</span>
+                    <label class="input-group-text" for="location-room">Room #</label>
                     <input type="number" id="location-room" class="form-control">
+                </div>
+                <!-- Floor # -->
+                <div class="input-group flex-nowrap">
+                    <label class="input-group-text" for="location-floor">Floor #</label>
+                    <input type="number" id="location-floor" class="form-control">
                 </div>
                 <hr>
                 <h1 class="display-6 bold">Details</h1>
                 <!-- Seats -->
                 <div class="input-group flex-nowrap">
-                    <span class="input-group-text">Seats</span>
+                    <label class="input-group-text" for="location-seats">Seats</label>
                     <input type="number" id="location-seats" class="form-control">
                 </div>
                 <!-- Tables -->
                 <div class="input-group flex-nowrap">
-                    <span class="input-group-text">Tables</span>
+                    <label class="input-group-text" for="location-tables">Tables</label>
                     <input type="number" id="location-tables" class="form-control">
                 </div>
                 <!-- Ports -->
                 <div class="input-group flex-nowrap">
-                    <span class="input-group-text">Wall Ports</span>
+                    <label class="input-group-text" for="location-ports">Wall Ports</label>
                     <input type="number" id="location-ports" class="form-control">
                 </div>
                 <!-- Whiteboard -->
@@ -108,9 +113,11 @@
         </div>
     </div>
 
+    <!-- Search Parameters -->
     <h1 class="display-4 text-center fw-bold">Search</h1>
     <div class="row d-flex justify-content-center text-center">
-        <div class="col-lg-5 room-form">
+        <!-- Location Parameters -->
+        <div class="col-lg-4 room-form">
             <h1 class="display-6 bold">Location</h1>
             <div class="input-group flex-nowrap">
                 <button class="btn btn-secondary dropdown-toggle" type="button" id="search-dropdown-button"
@@ -126,6 +133,11 @@
             <div class="input-group flex-nowrap">
                 <label class="input-group-text" for="search-room">Room #</label>
                 <input type="number" id="search-room" class="form-control">
+            </div>
+            <!-- Floor # -->
+            <div class="input-group flex-nowrap">
+                <label class="input-group-text" for="search-floor">Floor #</label>
+                <input type="number" id="search-floor" class="form-control">
             </div>
         </div>
     </div>
@@ -174,29 +186,14 @@
     <hr>
 
     <!-- Generated search results will be accordian items in this div-->
-    <div class="row justify-content-center text-center" id="generated-results">
-        <!-- <div class="accordion" id="accordionExample">
-            <div class="accordion-item">
-                <h2 class="accordion-header" id="headingOne">
-                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne"
-                    aria-expanded="true" aria-controls="collapseOne">
-                        Accordion Item #1
-                    </button>
-                </h2>
-                <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
-                    data-bs-parent="#accordionExample">
-                    <div class="accordion-body">
-                        <strong>This is the first item's accordion body.</strong> It is shown by default, until the collapse
-                        plugin adds the appropriate classes that we use to style each element. These classes control the
-                        overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of
-                        this with custom CSS or overriding our default variables. It's also worth noting that just about any
-                        HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
-                    </div>
-                </div>
-            </div>
-        </div> -->
+    <div class="row justify-content-center" id="gsr">
+        <div class="col col-lg-3 gsr-container" id="gsr-container-1">
+        </div>
+        <div class="col col-lg-3 gsr-container" id="gsr-container-2">
+        </div>
+        <div class="col col-lg-3 gsr-container" id="gsr-container-3">
+        </div>
     </div>
-
 
     <!-- Main script import -->
     <script src="./index.js"></script>
