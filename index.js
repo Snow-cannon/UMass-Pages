@@ -99,7 +99,7 @@ function addResult(content, container) {
         if (value !== null && value !== undefined && value !== '') {
             let elem = document.createElement('li');
             elem.classList.add('list-group-item');
-            if (typeof value === 'boolean') { //Treat booleans differently
+            if (typeof value === 'boolean' || value === 0) { //Treat booleans differently
                 elem.classList.add(`list-group-item-${value ? 'success' : 'danger'}`)
                 elem.innerText = `${title}: ${value ? '✔️' : '❌'}`
             } else {
@@ -167,8 +167,6 @@ function addResult(content, container) {
             rows[Math.floor(i / 3)].appendChild(c);
         }
     });
-
-    console.log(rows);
 
     //Add data to the columns
     let days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
