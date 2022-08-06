@@ -52,7 +52,7 @@
                 <div id="display_image"></div>
                 <!-- Description -->
                 <label for="location-desc" class="form-label fw-bold">Description</label>
-                <textarea id="location-desc" class="form-control" rows="4" maxlength="256"></textarea>
+                <textarea id="location-desc" class="form-control" rows="4" maxlength="100"></textarea>
                 <hr>
                 <h1 class="display-6 bold">Location</h1>
                 <!-- Building -->
@@ -108,7 +108,8 @@
                     <label class="input-group-text" for="location-outside">Outside</label>
                 </div>
                 <br>
-                <button class="btn btn-secondary">Submit Location</button>
+                <button class="btn btn-secondary" id="submit-location" data-bs-dismiss="offcanvas"
+                    aria-label="Close">Submit Location</button>
             </form>
         </div>
     </div>

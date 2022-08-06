@@ -93,8 +93,9 @@ function addResult(content, container) {
     list.classList.add('list-group-flush');
     card.appendChild(list);
 
+    //Ignore rendering all values that do not exist in the submission
     const addItem = (title, value) => {
-        if (value !== undefined) {
+        if (value !== null && value !== undefined && value !== '') {
             let elem = document.createElement('li');
             elem.classList.add('list-group-item');
             if (typeof value === 'boolean') { //Treat booleans differently
@@ -119,6 +120,33 @@ function addResult(content, container) {
 
     //Append to the specified column of cards
     document.getElementById(`gsr-container-${container}`).appendChild(card);
+}
+
+/**
+ * Makes a JSON obj out of the form data
+ */
+function submitAddAreaForm() {
+    //Collect all form data
+    let data = {
+        name: document.getElementById('location-name').value,
+        img: uploaded_image,
+        location: document.getElementById('location-location').value,
+        room: document.getElementById('location-room').value,
+        floor: document.getElementById('location-floor').value,
+        desc: document.getElementById('location-desc').value,
+        seats: document.getElementById('location-seats').value,
+        tables: document.getElementById('location-tables').value,
+        ports: document.getElementById('location-ports').value,
+        whiteboard: document.getElementById('location-whiteboard').checked,
+        outside: document.getElementById('location-outside').checked,
+    };
+    return data;
+}
+
+//TODO: Send to server instead of ading to gsr
+let lastAdd = 0;
+document.getElementById('submit-location').onclick = () => {
+    addResult(submitAddAreaForm(), (++lastAdd % 3) + 1);
 }
 
 //Load necessary information when the window completes loading
