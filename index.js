@@ -44,10 +44,12 @@ function makeLocationList(list, output) {
  * Takes in the data for a study area and outpusts it to a card format
  * 
  * @param {object} content
+ * @param {Element} container
  * @param {String} content.name
  * @param {String} content.img
  * @param {String} content.desc
  * @param {String} content.location
+ * @param {boolean[]} content.open
  * @param {number} content.room
  * @param {number} content.seats
  * @param {number} content.tables
@@ -98,7 +100,7 @@ function addResult(content, container) {
             let elem = document.createElement('li');
             elem.classList.add('list-group-item');
             if (typeof value === 'boolean') { //Treat booleans differently
-                elem.classList.add(`list-group-item-${value ? 'success' : 'warning'}`)
+                elem.classList.add(`list-group-item-${value ? 'success' : 'danger'}`)
                 elem.innerText = `${title}: ${value ? '✔️' : '❌'}`
             } else {
                 elem.innerText = `${title}: ${value}`;
@@ -107,10 +109,80 @@ function addResult(content, container) {
         }
     }
 
-    //Add details
+    //Add location data
     addItem('Location', content.location);
     addItem('Room #', content.room);
     addItem('Floor #', content.floor);
+
+    //Add open days
+    let date = new Date();
+    addItem('Open Today', content.open[date.getDay()]);
+
+    //Create open day grid
+    let openDays = document.createElement('li');
+    openDays.classList.add('list-group-item');
+    openDays.classList.add('list-group-flush');
+    openDays.style.padding = '0px';
+
+    //Create column list
+    let cols = [];
+    for (let i = 0; i < 7; i++) {
+        let c = document.createElement('div')
+
+        //Make column sizes
+        if (i === 6) {
+            c.classList.add('col');
+        } else {
+            c.classList.add('col-lg-4');
+        }
+
+
+        //Remove padding
+        if (i % 3 < 2 && i !== 6) { //Left, middle
+            c.style.paddingRight = 0;
+        }
+
+        if (i % 3 > 0) { //Right, middle, bottom
+            c.style.paddingLeft = 0;
+        }
+
+        cols.push(c);
+    }
+
+    //Make row list
+    let rows = [];
+    for (let i = 0; i < 3; i++) {
+        let r = document.createElement('div')
+        r.classList.add('row');
+        r.classList.add('justify-content-center');
+        r.classList.add('text-center');
+        rows.push(r);
+    }
+
+    //Add cols to rows
+    cols.forEach((c, i) => {
+        if (i === 6) {
+            rows[2].appendChild(c);
+        } else {
+            rows[Math.floor(i / 3)].appendChild(c);
+        }
+    });
+
+    console.log(rows);
+
+    //Add data to the columns
+    let days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
+    content.open.forEach((d, i) => {
+        let elem = document.createElement('div');
+        elem.classList.add(`list-group-item-${d ? 'success' : 'danger'}`)
+        elem.innerText += `${days[i]}: ${d ? '✔️' : '❌'}`
+        cols[i].appendChild(elem);
+    });
+
+    rows.forEach(r => { openDays.appendChild(r); });
+    list.appendChild(openDays);
+
     addItem('Seats', content.seats);
     addItem('Tables', content.tables);
     addItem('Wall Ports', content.ports);
@@ -138,7 +210,17 @@ function submitAddAreaForm() {
         ports: document.getElementById('location-ports').value,
         whiteboard: document.getElementById('location-whiteboard').checked,
         outside: document.getElementById('location-outside').checked,
+        open: [
+            document.getElementById('location-mon').checked,
+            document.getElementById('location-tue').checked,
+            document.getElementById('location-wed').checked,
+            document.getElementById('location-thu').checked,
+            document.getElementById('location-fri').checked,
+            document.getElementById('location-sat').checked,
+            document.getElementById('location-sun').checked
+        ]
     };
+
     return data;
 }
 
@@ -156,7 +238,17 @@ function submitSearchForm() {
         ports: document.getElementById('search-ports').value,
         whiteboard: document.getElementById('search-whiteboard').checked,
         outside: document.getElementById('search-outside').checked,
+        open: [
+            document.getElementById('search-mon').checked,
+            document.getElementById('search-tue').checked,
+            document.getElementById('search-wed').checked,
+            document.getElementById('search-thu').checked,
+            document.getElementById('search-fri').checked,
+            document.getElementById('search-sat').checked,
+            document.getElementById('search-sun').checked
+        ]
     };
+
     return data;
 }
 
@@ -171,6 +263,7 @@ document.getElementById('submit-location').onclick = () => {
 document.getElementById('submit-search').onclick = () => {
     //TODO: Submit search query to the server
     //TODO: Load all results to the screen
+    console.log(submitSearchForm());
 }
 
 //Load necessary information when the window completes loading
@@ -189,7 +282,8 @@ window.onload = () => {
         tables: 50,
         ports: 0,
         whiteboard: false,
-        outside: false
+        outside: false,
+        open: [true, true, true, true, true, true, true]
     }, 1);
 
     //TODO: Remove test card
@@ -203,6 +297,7 @@ window.onload = () => {
         tables: 1,
         ports: 2,
         whiteboard: false,
-        outside: false
+        outside: false,
+        open: [false, true, true, true, true, true, true]
     }, 2);
 }

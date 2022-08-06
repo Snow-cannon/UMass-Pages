@@ -18,7 +18,7 @@ Some inspiration from the example project idea [UMass Course Review](https://git
 
 ## Functionality
 
-**UMass Spaces** will have a single page. The top will have a bar that, when clicked, opens a form that allows you to enter a new study area with all the associated information listed below. Underneath the bar is the search option. This will have another form that allows users to enter filters based on what they want in a study area. When they search it will show all the study areas that match those filters, creating a scrolling list underneath with the images and the descriptions of the associated areas. The user can then click on an area to see comments, write a comment, and see all associated information on that particular site to see if it's something they are interested in. I would like to add a 'search near me' option, but I believe that would be too difficult. If I have time, however, I might attempt it.
+**UMass Spaces** will have a single page. The top will have a bar that, when clicked, opens a form on the side that allows you to enter a new study area with all the associated information listed below. Underneath the bar is the search options. This will have another form that allows users to enter filters based on what they want in a study area. When they search it will show all the study areas that match those filters, creating a scrolling list underneath with the images and the descriptions of the associated areas. I would like to add a 'search near me' option, but I believe that would be too difficult. If I have time, however, I might attempt it.
 
 Data for each site:
 
@@ -27,18 +27,8 @@ Data for each site:
 * Number of seats
   * Multiple tables?
   * Seats per table?
-<!-- * Schedule
-  * Days
-  * Times during each day
-  * Classroom schedule? -->
 * Location
   * Building
   * Room number
 * Wall plug access (Laptops need charging)
   * Number of plugs?
-<!-- * Restrictions
-  * Specific building access
-  * Grad student? -->
-<!-- * Near food? 🤷 (Might remove) -->
-<!-- * Other filters as I think of them (Too many can make it clunky) -->
-* Comments
