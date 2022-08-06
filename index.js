@@ -211,13 +211,13 @@ function submitAddAreaForm() {
         whiteboard: document.getElementById('location-whiteboard').checked,
         outside: document.getElementById('location-outside').checked,
         open: [
+            document.getElementById('location-sun').checked,
             document.getElementById('location-mon').checked,
             document.getElementById('location-tue').checked,
             document.getElementById('location-wed').checked,
             document.getElementById('location-thu').checked,
             document.getElementById('location-fri').checked,
-            document.getElementById('location-sat').checked,
-            document.getElementById('location-sun').checked
+            document.getElementById('location-sat').checked
         ]
     };
 
@@ -239,13 +239,13 @@ function submitSearchForm() {
         whiteboard: document.getElementById('search-whiteboard').checked,
         outside: document.getElementById('search-outside').checked,
         open: [
+            document.getElementById('search-sun').checked,
             document.getElementById('search-mon').checked,
             document.getElementById('search-tue').checked,
             document.getElementById('search-wed').checked,
             document.getElementById('search-thu').checked,
             document.getElementById('search-fri').checked,
-            document.getElementById('search-sat').checked,
-            document.getElementById('search-sun').checked
+            document.getElementById('search-sat').checked
         ]
     };
 
