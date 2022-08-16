@@ -227,6 +227,23 @@ async function submitAddAreaForm() {
         sat: document.getElementById('location-sat').checked
     };
 
+    if (data.name === '') {
+        window.alert('Name entry required');
+    } else if (uploaded_image === '') {
+        window.alert('Image Required');
+    }
+
+    let response = await fetch('createArea', {
+        method: 'PUT',
+        data: JSON.stringify(data)
+    });
+
+    if (response.ok) {
+        window.alert(`Successfully uploaded ${data.name} to the server`);
+    } else {
+        window.alert(`Failed to upload ${data.name} to the server`);
+    }
+
     return data;
 }
 
@@ -253,18 +270,19 @@ async function submitSearchData() {
         sat: document.getElementById('search-sat').checked
     };
 
+    //URL class rejects 'invalid' urls, so self build
     let url = new URLSearchParams();
     for (const k in data) {
         if (data[k] !== '' && data[k] !== false) {
             url.append(k, data[k]);
         }
     }
-    let response = await fetch(`searchArea/${url}`);
+    let response = await fetch(`searchArea/?${url}`);
 
     if (response.ok) {
         return response.json();
     } else {
-        console.error('Fetch failed');
+        window.alert(`Failed to make request`);
         return;
     }
 }

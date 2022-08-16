@@ -13,13 +13,24 @@ app.use(logger('dev'));
 //Statically serve client files
 app.use('/', express.static('client'));
 
-//Search room data
-app.get('/searchArea\*', (req, res) => {
+//CREATE
+app.put('/createArea', (req, res) => {
     res.json({ data: "ok" });
 });
 
-//Search room data
-app.put('/uploadArea', (req, res) => {
+//READ
+app.get('/searchArea\*', (req, res) => {
+    // let query = url.parse(req.url, true).query;
+    res.json({ data: req.query });
+});
+
+//UPDATE
+app.put('/updateArea', (req, res) => {
+    res.json({ data: "ok" });
+});
+
+//DELETE
+app.put('/deleteArea', (req, res) => {
     res.json({ data: "ok" });
 });
 

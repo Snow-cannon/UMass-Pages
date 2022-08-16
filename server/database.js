@@ -24,14 +24,30 @@ export class Database {
   }
 
   async init() {
-    // const queryText = `
-    //   CREATE TABLE IF NOT EXISTS places (
-    //     id varchar(30) PRIMARY KEY,
-    //     name varchar(30),
-    //     score integer
-    //   );
-    // `;
-    // const res = await this.client.query(queryText);
+    const queryText = `
+      CREATE TABLE IF NOT EXISTS places (
+        id varchar(30) PRIMARY KEY,
+        image text,
+        name varchar(30),
+        description varchar(250),
+        location text,
+        room int,
+        floor int,
+        sunday bool,
+        monday bool,
+        tuesday bool,
+        wednesday bool,
+        thursday bool,
+        friday bool,
+        saturday bool,
+        seats int,
+        tables int,
+        ports int,
+        whiteboard bool,
+        outside bool
+      );
+    `;
+    const res = await this.client.query(queryText);
   }
 
   // Close the pool.
