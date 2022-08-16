@@ -194,7 +194,7 @@ function addResult(content, container) {
 /**
  * Makes a JSON obj out of the add-area form data
  */
-function submitAddAreaForm() {
+async function submitAddAreaForm() {
     //Collect all form data
     let data = {
         name: document.getElementById('location-name').value,
@@ -253,7 +253,7 @@ function submitSearchForm() {
 let lastAdd = 0;
 document.getElementById('submit-location').onclick = () => {
     //TODO: Send to server instead of ading to gsr
-    lastAdd = (lastAdd + 1 % 3)
+    lastAdd = (lastAdd + 1 % 3);
     addResult(submitAddAreaForm(), lastAdd);
     return false;
 }
