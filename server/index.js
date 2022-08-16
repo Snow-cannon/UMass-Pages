@@ -14,7 +14,7 @@ app.use(logger('dev'));
 app.use('/', express.static('client'));
 
 //Search room data
-app.post('/searchArea', (req, res) => {
+app.get('/searchArea\*', (req, res) => {
     res.json({ data: "ok" });
 });
 

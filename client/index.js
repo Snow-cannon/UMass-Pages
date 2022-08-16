@@ -116,7 +116,17 @@ function addResult(content, container) {
 
     //Add open days
     let date = new Date();
-    addItem('Open Today', content.open[date.getDay()]);
+    let days = [
+        { open: content.sun, day: 'Sun' },
+        { open: content.mon, day: 'Mon' },
+        { open: content.tue, day: 'Tue' },
+        { open: content.wed, day: 'Wed' },
+        { open: content.thu, day: 'Thu' },
+        { open: content.fri, day: 'Fri' },
+        { open: content.sat, day: 'Sat' },
+    ];
+
+    addItem('Open Today', days[date.getDay()].open);
 
     //Create open day grid
     let openDays = document.createElement('li');
@@ -168,13 +178,13 @@ function addResult(content, container) {
         }
     });
 
-    //Add data to the columns
-    let days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    const addDay = (day, data, col) => {
+    }
 
-    content.open.forEach((d, i) => {
+    days.forEach((d, i) => {
         let elem = document.createElement('div');
-        elem.classList.add(`list-group-item-${d ? 'success' : 'danger'}`)
-        elem.innerText += `${days[i]}: ${d ? '✔️' : '❌'}`
+        elem.classList.add(`list-group-item-${d.open ? 'success' : 'danger'}`);
+        elem.innerText += `${d.day}: ${d.open ? '✔️' : '❌'}`;
         cols[i].appendChild(elem);
     });
 
@@ -208,15 +218,13 @@ async function submitAddAreaForm() {
         ports: document.getElementById('location-ports').value,
         whiteboard: document.getElementById('location-whiteboard').checked,
         outside: document.getElementById('location-outside').checked,
-        open: [
-            document.getElementById('location-sun').checked,
-            document.getElementById('location-mon').checked,
-            document.getElementById('location-tue').checked,
-            document.getElementById('location-wed').checked,
-            document.getElementById('location-thu').checked,
-            document.getElementById('location-fri').checked,
-            document.getElementById('location-sat').checked
-        ]
+        sun: document.getElementById('location-sun').checked,
+        mon: document.getElementById('location-mon').checked,
+        tue: document.getElementById('location-tue').checked,
+        wed: document.getElementById('location-wed').checked,
+        thu: document.getElementById('location-thu').checked,
+        fri: document.getElementById('location-fri').checked,
+        sat: document.getElementById('location-sat').checked
     };
 
     return data;
@@ -225,7 +233,7 @@ async function submitAddAreaForm() {
 /**
  * Makes a JSON obj out of the search form data
  */
-function submitSearchForm() {
+async function submitSearchData() {
     //Collect all form data
     let data = {
         location: document.getElementById('search-location').value,
@@ -236,33 +244,44 @@ function submitSearchForm() {
         ports: document.getElementById('search-ports').value,
         whiteboard: document.getElementById('search-whiteboard').checked,
         outside: document.getElementById('search-outside').checked,
-        open: [
-            document.getElementById('search-sun').checked,
-            document.getElementById('search-mon').checked,
-            document.getElementById('search-tue').checked,
-            document.getElementById('search-wed').checked,
-            document.getElementById('search-thu').checked,
-            document.getElementById('search-fri').checked,
-            document.getElementById('search-sat').checked
-        ]
+        sun: document.getElementById('search-sun').checked,
+        mon: document.getElementById('search-mon').checked,
+        tue: document.getElementById('search-tue').checked,
+        wed: document.getElementById('search-wed').checked,
+        thu: document.getElementById('search-thu').checked,
+        fri: document.getElementById('search-fri').checked,
+        sat: document.getElementById('search-sat').checked
     };
 
-    return data;
+    let url = new URLSearchParams();
+    for (const k in data) {
+        if (data[k] !== '' && data[k] !== false) {
+            url.append(k, data[k]);
+        }
+    }
+    let response = await fetch(`searchArea/${url}`);
+
+    if (response.ok) {
+        return response.json();
+    } else {
+        console.error('Fetch failed');
+        return;
+    }
 }
 
 let lastAdd = 0;
-document.getElementById('submit-location').onclick = () => {
+document.getElementById('submit-location').onclick = async () => {
     //TODO: Send to server instead of ading to gsr
     lastAdd = (lastAdd + 1 % 3);
-    addResult(submitAddAreaForm(), lastAdd);
+    addResult(await submitAddAreaForm(), lastAdd);
     return false;
 }
 
-document.getElementById('submit-search').onclick = () => {
+document.getElementById('submit-search').onclick = async () => {
     //TODO: Submit search query to the server
     //TODO: Load all results to the screen
     console.log('To be sent to server for querying:');
-    console.log(submitSearchForm());
+    console.log(await submitSearchData());
 }
 
 //Load necessary information when the window completes loading
