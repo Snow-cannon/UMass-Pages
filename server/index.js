@@ -8,7 +8,7 @@ const app = express();
 const port = process.env.PORT || 3000;
 app.use(express.urlencoded({ extended: false }));
 app.use(logger('dev'));
-app.use(express.json({ limit: '1MB' }));
+app.use(express.json({ limit: '2MB' }));
 
 //Statically serve client files
 app.use('/', express.static('client'));

@@ -1,4 +1,4 @@
-import { fetchSearch } from "./fetchData.js";
+import { fetchCreate, fetchDelete, fetchSearch } from "./fetchData.js";
 import { locations } from "./locations.js";
 
 /**
@@ -29,6 +29,7 @@ function makeLocationList(list, output) {
         div.innerText = l.name;
         li.onclick = () => {
             choice.value = l.name;
+            choice.focus();
         }
         li.appendChild(div);
         dropdown.appendChild(li);
@@ -195,11 +196,18 @@ function addResult(content, container) {
     deleteButton.classList.add('btn-secondary');
     deleteButton.classList.add('w-auto');
     deleteButton.innerText = 'Remove Area';
-    deleteButton.onclick = () => { submitDeleteArea(content.id); };
+    deleteButton.onclick = () => {
+        submitDeleteArea(content.id);
+        card.remove();
+    };
     card.appendChild(deleteButton);
 
     //Append to the specified column of cards
     document.getElementById(`gsr-container-${container}`).appendChild(card);
+}
+
+async function submitDeleteArea(id) {
+    fetchDelete(id);
 }
 
 /**
@@ -234,7 +242,7 @@ async function submitAddAreaForm() {
         window.alert('Image Required');
     }
 
-    return data;
+    return fetchCreate(data);
 }
 
 /**
@@ -260,27 +268,29 @@ async function submitSearchData() {
         sat: document.getElementById('search-sat').checked
     };
 
-    let result = await fetchSearch(data);
-
+    return await fetchSearch(data);
 }
 
-let lastAdd = 0;
+/**
+ * Submits the add area form to the server
+ */
 document.getElementById('submit-location').onclick = async () => {
-    //TODO: Send to server instead of ading to gsr
-    lastAdd = (lastAdd + 1 % 3);
-    addResult(await submitAddAreaForm(), lastAdd);
-    return false;
+    await submitAddAreaForm();
 }
 
+/**
+ * Submits the search request to the server
+ */
 document.getElementById('submit-search').onclick = async () => {
-    //TODO: Load all results to the screen
-    console.log('To be sent to server for querying:');
-    console.log(await submitSearchData());
+    let results = await submitSearchData();
+    results.rows.forEach(l => { addResult(l); });
 }
 
-//Load necessary information when the window completes loading
+/**
+ * Load building names to the client
+ */
 window.onload = async () => {
-    if (locations.isloaded) {
+    if (!locations.isloaded) {
         await locations.loadLocations();
     }
     makeLocationList(document.getElementById('location-dropdown-list'), document.getElementById('location-location'));
