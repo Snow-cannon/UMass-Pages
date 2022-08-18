@@ -1,3 +1,6 @@
+import { fetchSearch } from "./fetchData.js";
+import { locations } from "./locations.js";
+
 /**
  * Live-display the chosen image
  */
@@ -17,23 +20,15 @@ image_input.addEventListener('change', function () {
  * Get viable locations
  */
 function makeLocationList(list, output) {
-    let locations = [ //TODO: use GET to fetch locations list
-        'A',
-        'B',
-        'C',
-        'D',
-        'E',
-        'F'
-    ];
     const dropdown = list;
     const choice = output;
-    locations.forEach(l => {
+    locations.places.forEach(l => {
         let li = document.createElement('li');
         let div = document.createElement('div');
         div.classList.add('dropdown-item');
-        div.innerText = l;
+        div.innerText = l.name;
         li.onclick = () => {
-            choice.value = l;
+            choice.value = l.name;
         }
         li.appendChild(div);
         dropdown.appendChild(li);
@@ -58,6 +53,7 @@ function makeLocationList(list, output) {
  * @param {outside} content.outside
  */
 function addResult(content, container) {
+
     //Make card div
     let card = document.createElement('div');
     card.classList.add('card');
@@ -178,9 +174,6 @@ function addResult(content, container) {
         }
     });
 
-    const addDay = (day, data, col) => {
-    }
-
     days.forEach((d, i) => {
         let elem = document.createElement('div');
         elem.classList.add(`list-group-item-${d.open ? 'success' : 'danger'}`);
@@ -196,6 +189,14 @@ function addResult(content, container) {
     addItem('Wall Ports', content.ports);
     addItem('Whiteboard', content.whiteboard);
     addItem('Outside', content.outside);
+
+    let deleteButton = document.createElement('button');
+    deleteButton.classList.add('btn');
+    deleteButton.classList.add('btn-secondary');
+    deleteButton.classList.add('w-auto');
+    deleteButton.innerText = 'Remove Area';
+    deleteButton.onclick = () => { submitDeleteArea(content.id); };
+    card.appendChild(deleteButton);
 
     //Append to the specified column of cards
     document.getElementById(`gsr-container-${container}`).appendChild(card);
@@ -233,17 +234,6 @@ async function submitAddAreaForm() {
         window.alert('Image Required');
     }
 
-    let response = await fetch('createArea', {
-        method: 'PUT',
-        data: JSON.stringify(data)
-    });
-
-    if (response.ok) {
-        window.alert(`Successfully uploaded ${data.name} to the server`);
-    } else {
-        window.alert(`Failed to upload ${data.name} to the server`);
-    }
-
     return data;
 }
 
@@ -270,21 +260,8 @@ async function submitSearchData() {
         sat: document.getElementById('search-sat').checked
     };
 
-    //URL class rejects 'invalid' urls, so self build
-    let url = new URLSearchParams();
-    for (const k in data) {
-        if (data[k] !== '' && data[k] !== false) {
-            url.append(k, data[k]);
-        }
-    }
-    let response = await fetch(`searchArea/?${url}`);
+    let result = await fetchSearch(data);
 
-    if (response.ok) {
-        return response.json();
-    } else {
-        window.alert(`Failed to make request`);
-        return;
-    }
 }
 
 let lastAdd = 0;
@@ -296,14 +273,16 @@ document.getElementById('submit-location').onclick = async () => {
 }
 
 document.getElementById('submit-search').onclick = async () => {
-    //TODO: Submit search query to the server
     //TODO: Load all results to the screen
     console.log('To be sent to server for querying:');
     console.log(await submitSearchData());
 }
 
 //Load necessary information when the window completes loading
-window.onload = () => {
+window.onload = async () => {
+    if (locations.isloaded) {
+        await locations.loadLocations();
+    }
     makeLocationList(document.getElementById('location-dropdown-list'), document.getElementById('location-location'));
     makeLocationList(document.getElementById('search-dropdown-list'), document.getElementById('search-location'));
 }

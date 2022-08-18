@@ -1,37 +1,64 @@
 import { database } from './database.js';
 import express from 'express';
 import logger from 'morgan';
-import { makeID } from './serverUtils.js';
+import { buildQueryData, makeID } from './serverUtils.js';
 
 //Create express application
 const app = express();
 const port = process.env.PORT || 3000;
-app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(logger('dev'));
+app.use(express.json({ limit: '1MB' }));
 
 //Statically serve client files
 app.use('/', express.static('client'));
 
+await database.connect();
+
 //CREATE
-app.put('/createArea', (req, res) => {
-    res.json({ data: "ok" });
+app.put('/createArea', async (req, res) => {
+    let result = await database.createArea(...buildQueryData(req.body, true));
+    if (result.ok) {
+        res.json({ data: "ok" });
+    } else {
+        console.log(result.error);
+        res.json({ error: result.error });
+    }
 });
 
 //READ
-app.get('/searchArea\*', (req, res) => {
-    // let query = url.parse(req.url, true).query;
-    res.json({ data: req.query });
+app.get('/searchArea\*', async (req, res) => {
+    let result = await database.searchAreas(...buildQueryData(req.query));
+    if (result.ok) {
+        res.json({ data: "ok" });
+    } else {
+        console.log(result.error);
+        res.json({ error: result.error });
+    }
 });
 
 //UPDATE
-app.put('/updateArea', (req, res) => {
-    res.json({ data: "ok" });
+app.put('/updateArea', async (req, res) => {
+    let result = await database.updateArea(...buildQueryData(req.body));
+    if(result.ok){
+        console.log(result.rows);
+        res.json({ data: "ok" });
+    } else {
+        console.log(result.error);
+        res.json({ error: result.error });
+    }
 });
 
 //DELETE
-app.put('/deleteArea', (req, res) => {
-    res.json({ data: "ok" });
+app.put('/deleteArea', async (req, res) => {
+    let result = await database.deleteArea(req.body.id);
+    if(result.ok){
+        console.log(result.rows);
+        res.json({ data: "ok" });
+    } else {
+        console.log(result.error);
+        res.json({ error: result.error });
+    }
 });
 
 //Match invalid server requests
