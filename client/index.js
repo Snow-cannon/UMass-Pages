@@ -215,8 +215,10 @@ function addResult(content, container) {
     deleteButton.classList.add('w-auto');
     deleteButton.innerText = 'Remove Area';
     deleteButton.onclick = () => {
-        submitDeleteArea(content.id);
-        card.remove();
+        if (confirm(`Does ${content.name} no longer exist?`)) {
+            submitDeleteArea(content.id);
+            card.remove();
+        }
     };
     card.appendChild(deleteButton);
 
@@ -308,8 +310,15 @@ document.getElementById('submit-location').onclick = async () => {
 document.getElementById('submit-search').onclick = async () => {
     let results = await submitSearchData();
     if (results.ok) {
-        clearResults();
-        results.value.rows.forEach((l, i) => { addResult(l, i % 3); });
+        let rows = results.value.rows;
+        if (rows.length) {
+            clearResults();
+            results.value.rows.forEach((l, i) => { addResult(l, i % 3); });
+        } else {
+            alert('No results found');
+        }
+    } else {
+        alert(results.error);
     }
 }
 
