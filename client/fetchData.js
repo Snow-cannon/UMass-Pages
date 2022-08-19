@@ -54,6 +54,7 @@ export async function fetchSearch(data) {
  * @param {string} id 
  */
 export async function fetchUpdate(data) {
+    console.log(data);
     let response = await fetch('updateArea', {
         method: 'PUT',
         headers: {

@@ -1,7 +1,10 @@
-import { fetchCreate, fetchDelete, fetchSearch } from "./fetchData.js";
+import { fetchDelete } from "./fetchData.js";
+import { submitAddAreaForm, submitSearchAreaForm, submitUpdateAreaForm } from './submitForm.js';
 import { locations } from "./locations.js";
 
+/** Determins if the user is logged in */
 let LOGIN = false;
+
 /**
  * Load building names to the client
  */
@@ -22,29 +25,21 @@ window.onload = async () => {
     if (!locations.isloaded) {
         await locations.loadLocations();
     }
-    makeLocationList(document.getElementById('location-dropdown-list'), document.getElementById('location-location'));
-    makeLocationList(document.getElementById('search-dropdown-list'), document.getElementById('search-location'));
+    makeLocationList(document.getElementById('location-dropdown-list'), document.getElementById('location-location'), document.getElementById('location-dropdown-button'));
+    makeLocationList(document.getElementById('search-dropdown-list'), document.getElementById('search-location'), document.getElementById('search-dropdown-button'));
+    makeLocationList(document.getElementById('update-location-dropdown-list'), document.getElementById('search-location'), document.getElementById('search-dropdown-button'));
 }
 
 /**
- * Live-display the chosen image
+ * 
+ * Update Screen
+ * 
  */
-const image_input = document.getElementById('image_input');
-let uploaded_image = '';
-
-image_input.addEventListener('change', function () {
-    const reader = new FileReader();
-    reader.addEventListener('load', () => {
-        uploaded_image = reader.result;
-        document.getElementById('display_image').style.backgroundImage = `url(${uploaded_image})`;
-    });
-    reader.readAsDataURL(this.files[0]);
-});
 
 /**
  * Get viable locations
  */
-function makeLocationList(list, output) {
+function makeLocationList(list, output, focus) {
     const dropdown = list;
     const choice = output;
 
@@ -55,7 +50,7 @@ function makeLocationList(list, output) {
     div.innerText = 'Select';
     li.onclick = () => {
         choice.value = '';
-        choice.focus();
+        focus.focus();
     }
     li.appendChild(div);
     dropdown.appendChild(li);
@@ -68,7 +63,7 @@ function makeLocationList(list, output) {
         div.innerText = l.name;
         li.onclick = () => {
             choice.value = l.name;
-            choice.focus();
+            focus.focus();
         }
         li.appendChild(div);
         dropdown.appendChild(li);
@@ -235,7 +230,7 @@ function addResult(content, container) {
     addItem('Outside', content.outside);
 
     /**
-     * Only add the delete buttons if the user is logged in
+     * Only add the delete and update buttons if the user is logged in
      */
     if (LOGIN) {
         let deleteButton = document.createElement('button');
@@ -243,13 +238,33 @@ function addResult(content, container) {
         deleteButton.classList.add('btn-secondary');
         deleteButton.classList.add('w-auto');
         deleteButton.innerText = 'Remove Area';
-        deleteButton.onclick = () => {
+        deleteButton.onclick = async () => {
             if (confirm(`Does ${content.name} no longer exist?`)) {
-                submitDeleteArea(content.id);
+                await fetchDelete(content.id);
                 card.remove();
             }
         };
         card.appendChild(deleteButton);
+
+        let updateButton = document.createElement('button');
+        updateButton.type = 'button';
+        updateButton.classList.add('btn');
+        updateButton.classList.add('btn-umass-primary');
+        updateButton.setAttribute('data-bs-toggle', 'modal');
+        updateButton.setAttribute('data-bs-target', '#updateM');
+        updateButton.innerText = 'Update Area';
+        updateButton.onclick = () => {
+            for (const k in content) {
+                if (k === 'img') {
+
+                } else if (typeof content[k] === 'boolean') {
+                    document.getElementById(`update-location-${k}`).checked = content[k];
+                } else {
+                    document.getElementById(`update-location-${k}`).value = content[k];
+                }
+            }
+        }
+        card.appendChild(updateButton);
     }
 
     //Append to the specified column of cards
@@ -262,70 +277,26 @@ function clearResults() {
     }
 }
 
-async function submitDeleteArea(id) {
-    fetchDelete(id);
-}
+/**
+ * 
+ * Listeners
+ * 
+ */
 
 /**
- * Makes a JSON obj out of the add-area form data
+ * Live-display the chosen image
  */
-async function submitAddAreaForm() {
-    //Collect all form data
-    let data = {
-        name: document.getElementById('location-name').value,
-        img: uploaded_image,
-        location: document.getElementById('location-location').value,
-        room: document.getElementById('location-room').value,
-        floor: document.getElementById('location-floor').value,
-        description: document.getElementById('location-desc').value,
-        seats: document.getElementById('location-seats').value,
-        tables: document.getElementById('location-tables').value,
-        ports: document.getElementById('location-ports').value,
-        whiteboard: document.getElementById('location-whiteboard').checked,
-        outside: document.getElementById('location-outside').checked,
-        sun: document.getElementById('location-sun').checked,
-        mon: document.getElementById('location-mon').checked,
-        tue: document.getElementById('location-tue').checked,
-        wed: document.getElementById('location-wed').checked,
-        thu: document.getElementById('location-thu').checked,
-        fri: document.getElementById('location-fri').checked,
-        sat: document.getElementById('location-sat').checked
-    };
+const image_input = document.getElementById('image_input');
+let uploaded_image = '';
 
-    if (data.name === '') {
-        window.alert('Name entry required');
-    } else if (uploaded_image === '') {
-        window.alert('Image Required');
-    }
-
-    return fetchCreate(data);
-}
-
-/**
- * Makes a JSON obj out of the search form data
- */
-async function submitSearchData() {
-    //Collect all form data
-    let data = {
-        location: document.getElementById('search-location').value,
-        room: document.getElementById('search-room').value,
-        floor: document.getElementById('search-floor').value,
-        seats: document.getElementById('search-seats').value,
-        tables: document.getElementById('search-tables').value,
-        ports: document.getElementById('search-ports').value,
-        whiteboard: document.getElementById('search-whiteboard').checked,
-        outside: document.getElementById('search-outside').checked,
-        sun: document.getElementById('search-sun').checked,
-        mon: document.getElementById('search-mon').checked,
-        tue: document.getElementById('search-tue').checked,
-        wed: document.getElementById('search-wed').checked,
-        thu: document.getElementById('search-thu').checked,
-        fri: document.getElementById('search-fri').checked,
-        sat: document.getElementById('search-sat').checked
-    };
-
-    return await fetchSearch(data);
-}
+image_input.addEventListener('change', function () {
+    const reader = new FileReader();
+    reader.addEventListener('load', () => {
+        uploaded_image = reader.result;
+        document.getElementById('display_image').style.backgroundImage = `url(${uploaded_image})`;
+    });
+    reader.readAsDataURL(this.files[0]);
+});
 
 /**
  * Submits the add area form to the server
@@ -335,10 +306,17 @@ document.getElementById('submit-location').onclick = async () => {
 }
 
 /**
+ * Submits the add area form to the server
+ */
+document.getElementById('update-location').onclick = async () => {
+    await submitUpdateAreaForm();
+}
+
+/**
  * Submits the search request to the server
  */
 document.getElementById('submit-search').onclick = async () => {
-    let results = await submitSearchData();
+    let results = await submitSearchAreaForm();
     if (results.ok) {
         let rows = results.value.result.rows;
         if (rows) {

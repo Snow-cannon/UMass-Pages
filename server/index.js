@@ -62,6 +62,7 @@ app.get('/searchArea\*', async (req, res) => {
 
 //UPDATE
 app.put('/updateArea', checkLoggedIn, async (req, res) => {
+    console.log(buildQueryData(req.body));
     let result = await database.updateArea(...buildQueryData(req.body));
     if (result.ok) {
         res.json({ ok: true });

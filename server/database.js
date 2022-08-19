@@ -155,14 +155,14 @@ export class Database {
 
     //Build the query by taking arguments that have truthy values, as empty strings, undefined and false are not to be searched
     //Skip the id arg. ID will never be updated
-    let ins = 2;
+    let ins = 1;
     let values = [];
     for (let i = 1; i < arguments.length; ++i) {
       if (arguments[i] || arguments[i] === 0) {
         //Check that all values are valid
-        if (typeof arguments[i] !== this.cols[i].type) {
+        if (typeof arguments[i] === this.cols[i].type) {
           //Add to the query with the safe postgresql information
-          query += (ins > 2 ? '' : ', ') + this.cols[i].id + '=$' + ins++;
+          query += (ins === 1 ? '' : ', ') + this.cols[i].id + '=$' + ins++;
 
           //Push the needed value to the values array
           values.push(arguments[i]);
@@ -172,14 +172,11 @@ export class Database {
       }
     }
 
-    //Remove extra comma
-    query = query.split('').splice(query.length - 2, 1).join('');
-
     //Return updated row where ids match
-    query += ' WHERE id=$1 RETURNING *';
+    query += ` WHERE id=$${ins} RETURNING *`;
 
     //Query on the values that were requested as well as the id
-    const res = await this.client.query(query, [id, ...values]);
+    const res = await this.client.query(query, [...values, id]);
     return { ok: true, rows: res.rows };
   }
 
@@ -196,14 +193,14 @@ export class Database {
     const res = await this.client.query(query, [name, pass]);
     return { ok: true, rows: res.rows };
   }
-  
+
   async validateUser(name, pass) {
     let query = 'SELECT * FROM users WHERE name=$1 AND password=$2';
     const res = await this.client.query(query, [name, pass]);
     console.log('valid', res.rowCount);
     return res.rowCount === 1;
   }
-  
+
   async userExists(name) {
     let query = 'SELECT name FROM users WHERE name=$1';
     const res = await this.client.query(query, [name]);
@@ -211,13 +208,13 @@ export class Database {
     return res.rowCount === 1;
   }
 
-  async getAllUsers(){
+  async getAllUsers() {
     let query = 'SELECT name, password FROM users';
     const res = await this.client.query(query);
     return res.rows;
   }
 
-  async getAllAreas(){
+  async getAllAreas() {
     let query = 'SELECT name FROM places';
     const res = await this.client.query(query);
     return res.rows;

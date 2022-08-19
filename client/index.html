@@ -65,8 +65,8 @@
                 <input type="file" id="image_input" accept="image/*" class="form-control">
                 <div id="display_image"></div>
                 <!-- Description -->
-                <label for="location-desc" class="form-label fw-bold">Description</label>
-                <textarea id="location-desc" class="form-control" rows="4" maxlength="100"></textarea>
+                <label for="location-description" class="form-label fw-bold">Description</label>
+                <textarea id="location-description" class="form-control" rows="4" maxlength="100"></textarea>
                 <hr>
                 <h1 class="display-6 bold">Location</h1>
                 <!-- Building -->
@@ -353,7 +353,6 @@
             </div>
         </div>
     </div>
-    </div>
 
     <!-- Register -->
     <div class="modal fade" id="registerM" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -379,6 +378,151 @@
                         </div>
                         <button type="submit" class="btn btn-primary" data-bs-dismiss="modal"
                             aria-label="Close">Register</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Update Item -->
+    <div class="modal fade" id="updateM" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Update</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Submission form for new location -->
+                    <form id="update-location-form" class="room-form">
+                        <label for="update-location-name" class="form-label fw-bold">ID</label>
+                        <input type="text" id="update-location-id" class="form-control" disabled>
+                        <h1 class="display-6 bold">View</h1>
+                        <!-- Name -->
+                        <label for="update-location-name" class="form-label fw-bold">Name</label>
+                        <input type="text" id="update-location-name" class="form-control">
+                        <!-- Image -->
+                        <!-- <label for="image_input" class="form-label fw-bold">Location Image</label>
+                        <input type="file" id="update-location-img" accept="image/*" class="form-control">
+                        <div id="display_image"></div> -->
+                        <!-- Description -->
+                        <label for="update-location-description" class="form-label fw-bold">Description</label>
+                        <textarea id="update-location-description" class="form-control" rows="4" maxlength="100"></textarea>
+                        <hr>
+                        <h1 class="display-6 bold">Location</h1>
+                        <!-- Building -->
+                        <div class="input-group flex-nowrap">
+                            <button class="btn btn-secondary dropdown-toggle" type="button"
+                                id="update-location-dropdown-button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Building
+                            </button>
+                            <!-- Location List (Auto-generated onload) -->
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" id="update-location-dropdown-list">
+                            </ul>
+                            <input type="text" id="update-location-location" class="form-control" disabled>
+                        </div>
+                        <!-- Room # -->
+                        <div class="input-group flex-nowrap">
+                            <label class="input-group-text" for="update-location-room">Room #</label>
+                            <input type="number" id="update-location-room" class="form-control">
+                        </div>
+                        <!-- Floor # -->
+                        <div class="input-group flex-nowrap">
+                            <label class="input-group-text" for="update-location-floor">Floor #</label>
+                            <input type="number" id="update-location-floor" class="form-control">
+                        </div>
+                        <hr>
+                        <h1 class="display-6 bold">Days Open</h1>
+                        <div class="row d-flex justify-content-center text-center">
+                            <div class="col-lg-6 room-form">
+                                <!-- Monday -->
+                                <div class="input-group">
+                                    <div class="input-group-text">
+                                        <input class="form-check-input mt-0" type="checkbox" id="update-location-mon">
+                                    </div>
+                                    <label class="input-group-text" for="update-location-mon">Monday</label>
+                                </div>
+                                <!-- Wednesday -->
+                                <div class="input-group">
+                                    <div class="input-group-text">
+                                        <input class="form-check-input mt-0" type="checkbox" id="update-location-wed">
+                                    </div>
+                                    <label class="input-group-text" for="update-location-wed">Wednesday</label>
+                                </div>
+                                <!-- Friday -->
+                                <div class="input-group">
+                                    <div class="input-group-text">
+                                        <input class="form-check-input mt-0" type="checkbox" id="update-location-fri">
+                                    </div>
+                                    <label class="input-group-text" for="update-location-fri">Friday</label>
+                                </div>
+                                <!-- Sunday -->
+                                <div class="input-group">
+                                    <div class="input-group-text">
+                                        <input class="form-check-input mt-0" type="checkbox" id="update-location-sun">
+                                    </div>
+                                    <label class="input-group-text" for="update-location-sun">Sunday</label>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 room-form">
+                                <!-- Tuesday -->
+                                <div class="input-group">
+                                    <div class="input-group-text">
+                                        <input class="form-check-input mt-0" type="checkbox" id="update-location-tue">
+                                    </div>
+                                    <label class="input-group-text" for="update-location-tue">Tuesday</label>
+                                </div>
+                                <!-- Thursday -->
+                                <div class="input-group">
+                                    <div class="input-group-text">
+                                        <input class="form-check-input mt-0" type="checkbox" id="update-location-thu">
+                                    </div>
+                                    <label class="input-group-text" for="update-location-thu">Thursday</label>
+                                </div>
+                                <!-- Saturday -->
+                                <div class="input-group">
+                                    <div class="input-group-text">
+                                        <input class="form-check-input mt-0" type="checkbox" id="update-location-sat">
+                                    </div>
+                                    <label class="input-group-text" for="update-location-sat">Saturday</label>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <h1 class="display-6 bold">Other</h1>
+                        <!-- Seats -->
+                        <div class="input-group flex-nowrap">
+                            <label class="input-group-text" for="update-location-seats">Seats</label>
+                            <input type="number" id="update-location-seats" class="form-control">
+                        </div>
+                        <!-- Tables -->
+                        <div class="input-group flex-nowrap">
+                            <label class="input-group-text" for="update-location-tables">Tables</label>
+                            <input type="number" id="update-location-tables" class="form-control">
+                        </div>
+                        <!-- Ports -->
+                        <div class="input-group flex-nowrap">
+                            <label class="input-group-text" for="update-location-ports">Wall Ports</label>
+                            <input type="number" id="update-location-ports" class="form-control">
+                        </div>
+                        <!-- Whiteboard -->
+                        <div class="input-group">
+                            <div class="input-group-text">
+                                <input class="form-check-input mt-0" type="checkbox" id="update-location-whiteboard">
+                            </div>
+                            <label class="input-group-text" for="update-location-whiteboard">Whiteboard</label>
+                        </div>
+                        <!-- Outside -->
+                        <div class="input-group">
+                            <div class="input-group-text">
+                                <input class="form-check-input mt-0" type="checkbox" id="update-location-outside">
+                            </div>
+                            <label class="input-group-text" for="update-location-outside">Outside</label>
+                        </div>
+                        <br>
+                        <button type="button" class="btn btn-secondary" class="btn btn-primary" data-bs-dismiss="modal"
+                            aria-label="Close" id="update-location">Update
+                            Location</button>
                     </form>
                 </div>
             </div>
