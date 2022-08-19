@@ -25,8 +25,8 @@ class Locations {
      * @returns {String|null}
      */
     getAddress(name) {
-        let result = this.places.filter(p => { p.name === name })[0].address;
-        return result ? result : null;
+        let result = this.places.filter(p => p.name === name)[0];
+        return result ? result.address : null;
     }
 }
 

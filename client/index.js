@@ -54,7 +54,7 @@ function makeLocationList(list, output) {
  * Takes in the data for a study area and outpusts it to a card format
  * 
  * @param {object} content
- * @param {Element} container
+ * @param {number} container
  * @param {String} content.name
  * @param {String} content.img
  * @param {String} content.description
@@ -106,13 +106,16 @@ function addResult(content, container) {
     card.appendChild(list);
 
     //Ignore rendering all values that do not exist in the submission
-    const addItem = (title, value) => {
+    const addItem = (title, value, fancy) => {
         if (value !== null && value !== undefined && value !== '') {
             let elem = document.createElement('li');
             elem.classList.add('list-group-item');
-            if (typeof value === 'boolean' || value === 0) { //Treat booleans differently
+            if (typeof value === 'boolean') { //Treat booleans differently
                 elem.classList.add(`list-group-item-${value ? 'success' : 'danger'}`)
                 elem.innerText = `${title}: ${value ? '✔️' : '❌'}`
+            } else if (value === 0 && fancy) {
+                elem.classList.add(`list-group-item-warning`)
+                elem.innerText = `${title}: 0`
             } else {
                 elem.innerText = `${title}: ${value}`;
             }
@@ -200,9 +203,9 @@ function addResult(content, container) {
     rows.forEach(r => { openDays.appendChild(r); });
     list.appendChild(openDays);
 
-    addItem('Seats', content.seats);
-    addItem('Tables', content.tables);
-    addItem('Wall Ports', content.ports);
+    addItem('Seats', content.seats, true);
+    addItem('Tables', content.tables, true);
+    addItem('Wall Ports', content.ports, true);
     addItem('Whiteboard', content.whiteboard);
     addItem('Outside', content.outside);
 
@@ -219,6 +222,12 @@ function addResult(content, container) {
 
     //Append to the specified column of cards
     document.getElementById(`gsr-container-${container}`).appendChild(card);
+}
+
+function clearResults() {
+    for (let i = 0; i < 3; ++i) {
+        document.getElementById(`gsr-container-${i}`).innerHTML = '';
+    }
 }
 
 async function submitDeleteArea(id) {
@@ -298,8 +307,9 @@ document.getElementById('submit-location').onclick = async () => {
  */
 document.getElementById('submit-search').onclick = async () => {
     let results = await submitSearchData();
-    if(results.ok){
-        results.value.rows.forEach(l => { addResult(l); });
+    if (results.ok) {
+        clearResults();
+        results.value.rows.forEach((l, i) => { addResult(l, i % 3); });
     }
 }
 

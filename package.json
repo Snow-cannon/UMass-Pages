@@ -10,7 +10,8 @@
   "scripts": {
     "deploy": "copyfiles package*.json deploy && copyfiles client/*.* deploy && copyfiles server/*.js deploy",
     "start": "node server/index.js",
-    "debug": "node --inspect-brk server/index.js"
+    "debug": "node --inspect-brk server/index.js",
+    "start-deploy": "cd .. && npm run deploy && cd ./deploy && npm start"
   },
   "repository": {
     "type": "git",
