@@ -138,14 +138,6 @@ app.post('/register', async (req, res) => {
     }
 });
 
-app.get('/users', async (req, res) => {
-    res.json({ users: await database.getAllUsers() });
-});
-
-app.get('/areas', async (req, res) => {
-    res.json({ places: await database.getAllAreas() });
-});
-
 // Register URL
 app.get('/register', (req, res) => sendHTML(res));
 

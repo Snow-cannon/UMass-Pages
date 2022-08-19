@@ -207,18 +207,6 @@ export class Database {
     console.log('count', res.rowCount);
     return res.rowCount === 1;
   }
-
-  async getAllUsers() {
-    let query = 'SELECT name, password FROM users';
-    const res = await this.client.query(query);
-    return res.rows;
-  }
-
-  async getAllAreas() {
-    let query = 'SELECT name FROM places';
-    const res = await this.client.query(query);
-    return res.rows;
-  }
 }
 
 const database = new Database(process.env.DATABASE_URL);
