@@ -11,13 +11,13 @@ export class Database {
   }
 
   async connect() {
-    // this.pool = new Pool({
-    //   connectionString: this.dburl,
-    //   ssl: { rejectUnauthorized: false }, // Required for Heroku connections
-    // });
+    this.pool = new Pool({
+      connectionString: this.dburl,
+      ssl: { rejectUnauthorized: false }, // Required for Heroku connections
+    });
 
     // Create the pool.
-    // this.client = await this.pool.connect();
+    this.client = await this.pool.connect();
 
     // Init the database.
     await this.init();
@@ -29,7 +29,7 @@ export class Database {
       { id: 'id', type: 'string' },
       { id: 'img', type: 'string' },
       { id: 'name', type: 'string' },
-      { id: 'desc', type: 'string' },
+      { id: 'description', type: 'string' },
       { id: 'location', type: 'string' },
       { id: 'room', type: 'number' },
       { id: 'floor', type: 'number' },
@@ -52,7 +52,7 @@ export class Database {
         id varchar(30) PRIMARY KEY,
         img text,
         name varchar(30),
-        desc varchar(250),
+        description varchar(250),
         location text,
         room int,
         floor int,
@@ -70,8 +70,8 @@ export class Database {
         outside bool
         );
         `;
-    // const res = await this.client.query(queryText);
-    console.log(queryText);
+    const res = await this.client.query(queryText);
+    // console.log(queryText);
   }
 
   // Close the pool.
@@ -84,18 +84,18 @@ export class Database {
   /**
    * Adds a new location to the database. Will throw an error if the information is invalid
    */
-  async createArea(id, image, name, desc, location, room, floor, sun, mon, tue, wed, thu, fri, sat, seats, tables, ports, whiteboard, outside) {
+  async createArea(id, img, name, description, location, room, floor, sun, mon, tue, wed, thu, fri, sat, seats, tables, ports, whiteboard, outside) {
     //Insert all data values
-    let query = 'INSERT INTO places(id, image, name, description, location, room, floor, sunday, monday, tuesday, wednesday, thursday, friday, saturday, seats, tables, ports, whiteboard, outside) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19) RETURNING *';
+    let query = 'INSERT INTO places(id, img, name, description, location, room, floor, sun, mon, tue, wed, thu, fri, sat, seats, tables, ports, whiteboard, outside) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19) RETURNING *';
     //Check that all values are valid
     for (let i = 0; i < arguments.length; ++i) {
       if (typeof arguments[i] !== this.cols[i].type) {
         return { ok: false, error: `${this.cols[i].id} must be of type ${this.cols[i].type}` };
       }
     }
-    // const res = await this.client.query(query, [id, image, name, desc, location, room, floor, sun, mon, tue, wed, thu, fri, sat, seats, tables, ports, whiteboard, outside]);
-    // return { ok: true, rows: res.rows };
-    return { ok: true, rows: query.length };
+    const res = await this.client.query(query, [id, img, name, description, location, room, floor, sun, mon, tue, wed, thu, fri, sat, seats, tables, ports, whiteboard, outside]);
+    return { ok: true, rows: res.rows };
+    // return { ok: true, rows: query.length };
   }
 
   /**
@@ -105,15 +105,15 @@ export class Database {
    */
   async readArea(id) {
     let query = 'SELECT * FROM places WHERE id="$1"';
-    // const res = await this.client.query(query, [id]);
-    // return { ok: true, rows: res.rows };
-    return { ok: true, rows: query }
+    const res = await this.client.query(query, [id]);
+    return { ok: true, rows: res.rows };
+    // return { ok: true, rows: query }
   }
 
   /**
    * Querys the database based on the valid parameters
    */
-  async searchAreas(id, image, name, desc, location, room, floor, sun, mon, tue, wed, thu, fri, sat, seats, tables, ports, whiteboard, outside) {
+  async searchAreas(id, img, name, description, location, room, floor, sun, mon, tue, wed, thu, fri, sat, seats, tables, ports, whiteboard, outside) {
     //The query should only search the inputs that are selected
     let query = 'SELECT * FROM places WHERE';
 
@@ -141,12 +141,12 @@ export class Database {
     query += ' ORDER BY location DESC';
 
     //Query on the values that were requested
-    // const res = await this.client.query(query, values);
-    // return { ok: true, rows: res.rows };
-    return { ok: true, rows: { query: query, values: values } }
+    const res = await this.client.query(query, values);
+    return { ok: true, rows: res.rows };
+    // return { ok: true, rows: { query: query, values: values } }
   }
 
-  async updateArea(id, image, name, desc, location, room, floor, sun, mon, tue, wed, thu, fri, sat, seats, tables, ports, whiteboard, outside) {
+  async updateArea(id, img, name, description, location, room, floor, sun, mon, tue, wed, thu, fri, sat, seats, tables, ports, whiteboard, outside) {
     //The query should only search the inputs that are selected
     let query = 'UPDATE places SET ';
 
@@ -176,16 +176,16 @@ export class Database {
     query += ' WHERE id=$1 RETURNING *';
 
     //Query on the values that were requested as well as the id
-    // const res = await this.client.query(query, [id, ...values]);
-    // return { ok: true, rows: res.rows };
-    return { ok: true, rows: { query: query, values: values } }
+    const res = await this.client.query(query, [id, ...values]);
+    return { ok: true, rows: res.rows };
+    // return { ok: true, rows: { query: query, values: values } }
   }
 
   async deleteArea(id) {
     let query = 'DELETE FROM places WHERE id=$1 RETURNING *';
-    // const res = await this.client.query(query, [id]);
-    // return { ok: true, rows: res.rows };
-    return { ok: true, rows: query }
+    const res = await this.client.query(query, [id]);
+    return { ok: true, rows: res.rows };
+    // return { ok: true, rows: query }
   }
 }
 

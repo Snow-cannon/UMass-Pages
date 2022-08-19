@@ -38,7 +38,7 @@ export async function fetchSearch(data) {
         let response = await fetch(makeQuery('searchArea', data));
 
         if (response.ok) {
-            return { ok: true, value: response.json() };
+            return { ok: true, value: await response.json() };
         } else {
             return { ok: false, error: 'Response not ok' };
         }

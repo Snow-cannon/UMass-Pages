@@ -22,9 +22,23 @@ image_input.addEventListener('change', function () {
 function makeLocationList(list, output) {
     const dropdown = list;
     const choice = output;
+
+    //Add basic select option
+    let li = document.createElement('li');
+    let div = document.createElement('div');
+    div.classList.add('dropdown-item');
+    div.innerText = 'Select';
+    li.onclick = () => {
+        choice.value = '';
+        choice.focus();
+    }
+    li.appendChild(div);
+    dropdown.appendChild(li);
+
+    //Add other locations
     locations.places.forEach(l => {
-        let li = document.createElement('li');
-        let div = document.createElement('div');
+        li = document.createElement('li');
+        div = document.createElement('div');
         div.classList.add('dropdown-item');
         div.innerText = l.name;
         li.onclick = () => {
@@ -43,7 +57,7 @@ function makeLocationList(list, output) {
  * @param {Element} container
  * @param {String} content.name
  * @param {String} content.img
- * @param {String} content.desc
+ * @param {String} content.description
  * @param {String} content.location
  * @param {boolean[]} content.open
  * @param {number} content.room
@@ -82,7 +96,7 @@ function addResult(content, container) {
     //Add description
     let desc = document.createElement('p');
     desc.classList.add('card-text');
-    desc.innerText = content.desc;
+    desc.innerText = content.description;
     body.appendChild(desc);
 
     //Create List Structure
@@ -108,6 +122,7 @@ function addResult(content, container) {
 
     //Add location data
     addItem('Location', content.location);
+    addItem('Address', locations.getAddress(content.location));
     addItem('Room #', content.room);
     addItem('Floor #', content.floor);
 
@@ -221,7 +236,7 @@ async function submitAddAreaForm() {
         location: document.getElementById('location-location').value,
         room: document.getElementById('location-room').value,
         floor: document.getElementById('location-floor').value,
-        desc: document.getElementById('location-desc').value,
+        description: document.getElementById('location-desc').value,
         seats: document.getElementById('location-seats').value,
         tables: document.getElementById('location-tables').value,
         ports: document.getElementById('location-ports').value,
@@ -283,7 +298,9 @@ document.getElementById('submit-location').onclick = async () => {
  */
 document.getElementById('submit-search').onclick = async () => {
     let results = await submitSearchData();
-    results.rows.forEach(l => { addResult(l); });
+    if(results.ok){
+        results.value.rows.forEach(l => { addResult(l); });
+    }
 }
 
 /**

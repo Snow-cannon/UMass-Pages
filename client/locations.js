@@ -17,6 +17,17 @@ class Locations {
             console.error('failed response');
         }
     }
+
+    /**
+     * Returns the address of the result if it exists. returns null otherwise
+     * 
+     * @param {String} name 
+     * @returns {String|null}
+     */
+    getAddress(name) {
+        let result = this.places.filter(p => { p.name === name })[0].address;
+        return result ? result : null;
+    }
 }
 
 export const locations = new Locations();

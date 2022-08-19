@@ -30,7 +30,7 @@ app.put('/createArea', async (req, res) => {
 app.get('/searchArea\*', async (req, res) => {
     let result = await database.searchAreas(...buildQueryData(req.query));
     if (result.ok) {
-        res.json({ data: "ok" });
+        res.json(result);
     } else {
         console.log(result.error);
         res.json({ error: result.error });

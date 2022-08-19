@@ -8,7 +8,9 @@
 export function makeQuery(url, data) {
     let query = new URLSearchParams();
     for (const d in data) {
-        query.append(d, data[d]);
+        if (data[d]) {
+            query.append(d, data[d]);
+        }
     }
     return `${url}/?${query}`;
 }
