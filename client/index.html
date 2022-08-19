@@ -25,17 +25,23 @@
     <nav class="navbar navbar-umass">
         <div class="container-fluid">
             <a class="navbar-brand umass-spaces">UMass Spaces</a>
-            <div>
-                <button class="btn btn-umass-primary" data-bs-toggle="modal" data-bs-target="#registerM">
+            <div id="nav-buttons">
+                <!-- <a class="navbar-brand umass-spaces" id="nametag">User: </a> -->
+                <button class="btn btn-umass-primary" data-bs-toggle="modal" data-bs-target="#registerM" id="registerB">
                     Register
                 </button>
-                <button class="btn btn-umass-primary" data-bs-toggle="modal" data-bs-target="#loginM">
+                <button class="btn btn-umass-primary" data-bs-toggle="modal" data-bs-target="#loginM" id="loginB">
                     Login
                 </button>
-                <button class="btn btn-umass-primary" data-bs-toggle="offcanvas" href="#add-location-sidebar"
-                    aria-controls="offcanvasExample">
-                    Add Location
-                </button>
+                <form action="/logout" method="get" id="logoutF" class="container-fluid tiny-form">
+                    <button class="btn btn-umass-primary" id="logoutB" type="submit">
+                        Logout
+                    </button>
+                    <button class="btn btn-umass-primary" data-bs-toggle="offcanvas" href="#add-location-sidebar"
+                        aria-controls="offcanvasExample" id="add-location-tab-btn4" type="button">
+                        Add Location
+                    </button>
+                </form>
             </div>
         </div>
     </nav>
@@ -340,7 +346,8 @@
                             <input type="password" id="passwordL" class="form-control" maxlength="100"
                                 placeholder="Password" name="password">
                         </div>
-                        <button type="submit" class="btn btn-primary" data-bs-dismiss="modal" aria-label="Close">Login</button>
+                        <button type="submit" class="btn btn-primary" data-bs-dismiss="modal"
+                            aria-label="Close">Login</button>
                     </form>
                 </div>
             </div>
@@ -370,7 +377,8 @@
                             <input type="password" id="passwordR" class="form-control" maxlength="100"
                                 placeholder="Password" name="password">
                         </div>
-                        <button type="submit" class="btn btn-primary" data-bs-dismiss="modal" aria-label="Close">Register</button>
+                        <button type="submit" class="btn btn-primary" data-bs-dismiss="modal"
+                            aria-label="Close">Register</button>
                     </form>
                 </div>
             </div>

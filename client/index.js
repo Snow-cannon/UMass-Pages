@@ -1,6 +1,31 @@
 import { fetchCreate, fetchDelete, fetchSearch } from "./fetchData.js";
 import { locations } from "./locations.js";
 
+let LOGIN = false;
+/**
+ * Load building names to the client
+ */
+window.onload = async () => {
+    let response = await fetch('/logged');
+    if (response.ok) {
+        let data = await response.json();
+        if (data.ok) {
+            document.getElementById('registerB').remove();
+            document.getElementById('loginB').remove();
+            let logout = document.getElementById('logoutB');
+            logout.innerText = `Logout: ${data.name}`;
+            LOGIN = true;
+        } else {
+            document.getElementById('logoutF').remove();
+        }
+    }
+    if (!locations.isloaded) {
+        await locations.loadLocations();
+    }
+    makeLocationList(document.getElementById('location-dropdown-list'), document.getElementById('location-location'));
+    makeLocationList(document.getElementById('search-dropdown-list'), document.getElementById('search-location'));
+}
+
 /**
  * Live-display the chosen image
  */
@@ -209,18 +234,23 @@ function addResult(content, container) {
     addItem('Whiteboard', content.whiteboard);
     addItem('Outside', content.outside);
 
-    let deleteButton = document.createElement('button');
-    deleteButton.classList.add('btn');
-    deleteButton.classList.add('btn-secondary');
-    deleteButton.classList.add('w-auto');
-    deleteButton.innerText = 'Remove Area';
-    deleteButton.onclick = () => {
-        if (confirm(`Does ${content.name} no longer exist?`)) {
-            submitDeleteArea(content.id);
-            card.remove();
-        }
-    };
-    card.appendChild(deleteButton);
+    /**
+     * Only add the delete buttons if the user is logged in
+     */
+    if (LOGIN) {
+        let deleteButton = document.createElement('button');
+        deleteButton.classList.add('btn');
+        deleteButton.classList.add('btn-secondary');
+        deleteButton.classList.add('w-auto');
+        deleteButton.innerText = 'Remove Area';
+        deleteButton.onclick = () => {
+            if (confirm(`Does ${content.name} no longer exist?`)) {
+                submitDeleteArea(content.id);
+                card.remove();
+            }
+        };
+        card.appendChild(deleteButton);
+    }
 
     //Append to the specified column of cards
     document.getElementById(`gsr-container-${container}`).appendChild(card);
@@ -322,15 +352,4 @@ document.getElementById('submit-search').onclick = async () => {
     } else {
         alert(results.error);
     }
-}
-
-/**
- * Load building names to the client
- */
-window.onload = async () => {
-    if (!locations.isloaded) {
-        await locations.loadLocations();
-    }
-    makeLocationList(document.getElementById('location-dropdown-list'), document.getElementById('location-location'));
-    makeLocationList(document.getElementById('search-dropdown-list'), document.getElementById('search-location'));
 }

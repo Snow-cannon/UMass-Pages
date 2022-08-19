@@ -19,6 +19,12 @@ body {
     color: white;
 }
 
+.umass-spaces:hover {
+    font-weight: bold;
+    font-family: Arial, Helvetica, sans-serif;
+    color: white;
+}
+
 .navbar-umass {
     padding: 10px;
     background-color: #881c1c;
@@ -48,3 +54,7 @@ body {
     margin-bottom: 10px;
 }
 
+.tiny-form {
+    margin: 0px;
+    padding: 0px;
+}

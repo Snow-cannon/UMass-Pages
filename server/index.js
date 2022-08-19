@@ -96,8 +96,8 @@ function checkLoggedIn(req, res, next) {
     }
 }
 
-app.get('/', checkLoggedIn, (req, res) => {
-
+app.get('/logged', (req, res) => {
+    res.json({ ok: req.isAuthenticated(), name: req.user });
 });
 
 // Handle the URL /login (just output the html file).
