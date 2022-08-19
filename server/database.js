@@ -69,9 +69,13 @@ export class Database {
         whiteboard bool,
         outside bool
         );
+
+        CREATE TABLE IF NOT EXISTS users (
+          name varchar(30),
+          password varchar(100)
+        );
         `;
     const res = await this.client.query(queryText);
-    // console.log(queryText);
   }
 
   // Close the pool.
@@ -79,6 +83,8 @@ export class Database {
     this.client.release();
     await this.pool.end();
   }
+
+  // Area table
 
 
   /**
@@ -95,7 +101,6 @@ export class Database {
     }
     const res = await this.client.query(query, [id, img, name, description, location, room, floor, sun, mon, tue, wed, thu, fri, sat, seats, tables, ports, whiteboard, outside]);
     return { ok: true, rows: res.rows };
-    // return { ok: true, rows: query.length };
   }
 
   /**
@@ -107,7 +112,6 @@ export class Database {
     let query = 'SELECT * FROM places WHERE id="$1"';
     const res = await this.client.query(query, [id]);
     return { ok: true, rows: res.rows };
-    // return { ok: true, rows: query }
   }
 
   /**
@@ -143,7 +147,6 @@ export class Database {
     //Query on the values that were requested
     const res = await this.client.query(query, values);
     return { ok: true, rows: res.rows };
-    // return { ok: true, rows: { query: query, values: values } }
   }
 
   async updateArea(id, img, name, description, location, room, floor, sun, mon, tue, wed, thu, fri, sat, seats, tables, ports, whiteboard, outside) {
@@ -164,7 +167,7 @@ export class Database {
           //Push the needed value to the values array
           values.push(arguments[i]);
         } else {
-          throw `${this.cols[i].id} must be of type ${this.cols[i].type}`;
+          return { ok: false, error: `${this.cols[i].id} must be of type ${this.cols[i].type}` };
         }
       }
     }
@@ -178,14 +181,46 @@ export class Database {
     //Query on the values that were requested as well as the id
     const res = await this.client.query(query, [id, ...values]);
     return { ok: true, rows: res.rows };
-    // return { ok: true, rows: { query: query, values: values } }
   }
 
   async deleteArea(id) {
     let query = 'DELETE FROM places WHERE id=$1 RETURNING *';
     const res = await this.client.query(query, [id]);
     return { ok: true, rows: res.rows };
-    // return { ok: true, rows: query }
+  }
+
+  // User table
+
+  async addUser(name, pass) {
+    let query = 'INSERT INTO users(name, password) values ($1, $2) RETURNING *';
+    const res = await this.client.query(query, [name, pass]);
+    return { ok: true, rows: res.rows };
+  }
+  
+  async validateUser(name, pass) {
+    let query = 'SELECT * FROM users WHERE name=$1 AND password=$2';
+    const res = await this.client.query(query, [name, pass]);
+    console.log('valid', res.rowCount);
+    return res.rowCount === 1;
+  }
+  
+  async userExists(name) {
+    let query = 'SELECT name FROM users WHERE name=$1';
+    const res = await this.client.query(query, [name]);
+    console.log('count', res.rowCount);
+    return res.rowCount === 1;
+  }
+
+  async getAllUsers(){
+    let query = 'SELECT name, password FROM users';
+    const res = await this.client.query(query);
+    return res.rows;
+  }
+
+  async getAllAreas(){
+    let query = 'SELECT name FROM places';
+    const res = await this.client.query(query);
+    return res.rows;
   }
 }
 

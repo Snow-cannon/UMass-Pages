@@ -12,9 +12,10 @@ export async function fetchCreate(data) {
         headers: {
             'Content-Type': 'application/json',
         },
+        credentials: 'include',
         body: JSON.stringify(data)
     });
-
+    
     if (response.ok) {
         return { ok: true, value: `Successfully uploaded ${data.name} to the server` };
     } else {
@@ -33,10 +34,10 @@ export async function fetchSearch(data) {
     for (const k in data) {
         valid += data[k] ? 1 : 0;
     }
-
+    
     if (valid >= 2) {
         let response = await fetch(makeQuery('searchArea', data));
-
+        
         if (response.ok) {
             return { ok: true, value: await response.json() };
         } else {
@@ -58,9 +59,10 @@ export async function fetchUpdate(data) {
         headers: {
             'Content-Type': 'application/json',
         },
+        credentials: 'include',
         body: JSON.stringify(data)
     });
-
+    
     if (response.ok) {
         return { ok: true, msg: `Successfully uploaded ${data.name} to the server` };
     } else {
@@ -79,9 +81,10 @@ export async function fetchDelete(id) {
         headers: {
             'Content-Type': 'application/json',
         },
+        credentials: 'include',
         body: JSON.stringify({ id: id })
     });
-
+    
     if (response.ok) {
         return { ok: true, msg: `Successfully deleted ${id} from the server` };
     } else {

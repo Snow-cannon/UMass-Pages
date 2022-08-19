@@ -310,8 +310,8 @@ document.getElementById('submit-location').onclick = async () => {
 document.getElementById('submit-search').onclick = async () => {
     let results = await submitSearchData();
     if (results.ok) {
-        let rows = results.value.rows;
-        if (rows[0]) {
+        let rows = results.value.result.rows;
+        if (rows) {
             clearResults();
             //Only show the top 21 results (divisible by 3)
             rows.splice(21);

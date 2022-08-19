@@ -25,10 +25,18 @@
     <nav class="navbar navbar-umass">
         <div class="container-fluid">
             <a class="navbar-brand umass-spaces">UMass Spaces</a>
-            <button class="btn btn-umass-primary" data-bs-toggle="offcanvas" href="#add-location-sidebar"
-                aria-controls="offcanvasExample">
-                Add Location
-            </button>
+            <div>
+                <button class="btn btn-umass-primary" data-bs-toggle="modal" data-bs-target="#registerM">
+                    Register
+                </button>
+                <button class="btn btn-umass-primary" data-bs-toggle="modal" data-bs-target="#loginM">
+                    Login
+                </button>
+                <button class="btn btn-umass-primary" data-bs-toggle="offcanvas" href="#add-location-sidebar"
+                    aria-controls="offcanvasExample">
+                    Add Location
+                </button>
+            </div>
         </div>
     </nav>
 
@@ -165,7 +173,8 @@
                     <label class="input-group-text" for="location-outside">Outside</label>
                 </div>
                 <br>
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="offcanvas" aria-label="Close" id="submit-location">Submit
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="offcanvas" aria-label="Close"
+                    id="submit-location">Submit
                     Location</button>
             </form>
         </div>
@@ -306,6 +315,65 @@
         <div class="col col-lg-3 gsr-container" id="gsr-container-1">
         </div>
         <div class="col col-lg-3 gsr-container border-success" id="gsr-container-2">
+        </div>
+    </div>
+
+    <!-- Login -->
+    <div class="modal fade" id="loginM" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Login</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form class="room-form" action="/login" method="post">
+                        <!-- Username -->
+                        <div class="input-group flex-nowrap">
+                            <!-- <label class="input-group-text" for="username">Username</label> -->
+                            <input type="text" id="usernameL" class="form-control" maxlength="30" placeholder="Username"
+                                name="username">
+                        </div>
+                        <!-- Password -->
+                        <div class="input-group flex-nowrap">
+                            <!-- <label class="input-group-text" for="password">Password</label> -->
+                            <input type="password" id="passwordL" class="form-control" maxlength="100"
+                                placeholder="Password" name="password">
+                        </div>
+                        <button type="submit" class="btn btn-primary" data-bs-dismiss="modal" aria-label="Close">Login</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <!-- Register -->
+    <div class="modal fade" id="registerM" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Register</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form class="room-form" action="/register" method="post">
+                        <!-- Username -->
+                        <div class="input-group flex-nowrap">
+                            <!-- <label class="input-group-text" for="username">Username</label> -->
+                            <input type="text" id="usernameR" class="form-control" maxlength="30" placeholder="Username"
+                                name="username">
+                        </div>
+                        <!-- Password -->
+                        <div class="input-group flex-nowrap">
+                            <!-- <label class="input-group-text" for="password">Password</label> -->
+                            <input type="password" id="passwordR" class="form-control" maxlength="100"
+                                placeholder="Password" name="password">
+                        </div>
+                        <button type="submit" class="btn btn-primary" data-bs-dismiss="modal" aria-label="Close">Register</button>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
 
