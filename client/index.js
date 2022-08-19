@@ -302,7 +302,7 @@ image_input.addEventListener('change', function () {
  * Submits the add area form to the server
  */
 document.getElementById('submit-location').onclick = async () => {
-    await submitAddAreaForm();
+    await submitAddAreaForm(uploaded_image);
 }
 
 /**

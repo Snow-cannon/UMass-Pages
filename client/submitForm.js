@@ -3,11 +3,11 @@ import { fetchCreate, fetchSearch, fetchUpdate } from "./fetchData.js";
 /**
  * Makes a JSON obj out of the add-area form data
  */
-export async function submitAddAreaForm() {
+export async function submitAddAreaForm(img) {
     //Collect all form data
     let data = {
         name: document.getElementById('location-name').value,
-        img: uploaded_image,
+        img: img,
         location: document.getElementById('location-location').value,
         room: document.getElementById('location-room').value,
         floor: document.getElementById('location-floor').value,
@@ -28,7 +28,7 @@ export async function submitAddAreaForm() {
 
     if (data.name === '') {
         window.alert('Name entry required');
-    } else if (uploaded_image === '') {
+    } else if (img === '') {
         window.alert('Image Required');
     } else {
         return fetchCreate(data);
