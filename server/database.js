@@ -121,7 +121,7 @@ export class Database {
     let ins = 1;
     let values = [];
     for (let i = 0; i < arguments.length; ++i) {
-      if (arguments[i]) {
+      if (arguments[i] || arguments[i] === 0) {
         if (typeof arguments[i] === this.cols[i].type) {
           //Add to the query with the safe postgresql information
           query += (ins > 1 ? ' AND ' : ' ') + this.cols[i].id + this.cols[i].match + '$' + ins++;
@@ -155,7 +155,7 @@ export class Database {
     let ins = 2;
     let values = [];
     for (let i = 1; i < arguments.length; ++i) {
-      if (arguments[i]) {
+      if (arguments[i] || arguments[i] === 0) {
         //Check that all values are valid
         if (typeof arguments[i] !== this.cols[i].type) {
           //Add to the query with the safe postgresql information
